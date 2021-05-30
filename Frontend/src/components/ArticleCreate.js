@@ -11,9 +11,9 @@ import ArticleHeaderImage from "./ArticleHeaderImage";
 
 function ArticleCreate() {
 
-  const [ article, setArticle ] = useContext(ArticleContext);
+  const [article, setArticle] = useContext(ArticleContext);
 
-  const [user, ] = useContext(UserContext);
+  const [user,] = useContext(UserContext);
 
   const history = useHistory();
 
@@ -24,7 +24,7 @@ function ArticleCreate() {
       title: "",
       text: "",
       tags: [],
-      headerImage: "http://localhost:5000/uploads/images/article_headers/default.png"
+      headerImage: process.env.REACT_APP_BASE_URL_SERVER + "/uploads/images/article_headers/default.png"
     });
   }, []);
 
@@ -36,7 +36,7 @@ function ArticleCreate() {
   return (
     <div id="editor">
       <Tags />
-      <ArticleButtons edit={false}/>
+      <ArticleButtons edit={false} />
       <ArticleHeaderImage />
       <TitleInput />
       <Editor />
