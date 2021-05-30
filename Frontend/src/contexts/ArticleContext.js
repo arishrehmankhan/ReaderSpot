@@ -1,4 +1,4 @@
-import React, {createContext, useState} from "react";
+import React, { createContext, useState } from "react";
 
 export const ArticleContext = createContext();
 
@@ -8,7 +8,7 @@ export const ArticleProvider = (props) => {
         title: "",
         text: "",
         tags: [],
-        headerImage: "http://localhost:5000/uploads/images/article_headers/default.png"
+        headerImage: process.env.REACT_APP_BASE_URL_SERVER + "/uploads/images/article_headers/default.png"
     });
 
     return (
