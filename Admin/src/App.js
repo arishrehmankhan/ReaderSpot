@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { UserProvider } from "./contexts/UserContext";
-import AdminLogin from "./components/AdminLogin";
+import Login from "./components/Login";
 import Admin from "./components/Admin";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,7 +12,7 @@ function App() {
     <UserProvider>
       <BrowserRouter>
         <Switch>
-            <Route exact path="/admin/login" component={AdminLogin} />
+            <Route exact path="/admin/login" component={Login} />
             <Route path="/admin">
               <Admin />
             </Route>

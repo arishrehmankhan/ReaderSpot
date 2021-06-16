@@ -7,7 +7,8 @@ export const UserProvider = (props) => {
     const admin_token = localStorage.getItem("admin_token");
 
     const [user, setUser] = useState({
-        admin_token: admin_token
+        admin_token: admin_token,
+        isAdminLoggedIn: admin_token ? true : false,
     });
 
     return (

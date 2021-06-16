@@ -1,13 +1,14 @@
 import React, { useContext } from "react"
 import { UserContext } from "../contexts/UserContext";
 import { Switch, useHistory, useRouteMatch, Route } from "react-router-dom";
-import "../styles/Admin/sb-admin-2.css";
-import AdminSidebar from "./AdminSidebar";
-import AdminDashbaord from "./AdminDashboard";
-import AdminPublishedArticles from "./AdminPublishedArticles";
-import AdminToBeVerifiedArticles from "./AdminToBeVerifiedArticles";
-import AdminContactMessages from "./AdminContactMessages";
-import AdminReports from "./AdminReports";
+import Sidebar from "./Sidebar";
+import Dashbaord from "./Dashboard";
+import PublishedArticles from "./PublishedArticles";
+import ToBeVerifiedArticles from "./ToBeVerifiedArticles";
+import ContactMessages from "./ContactMessages";
+import Reports from "./Reports";
+import "../styles/sb-admin-2.css";
+import "../styles/custom.css";
 
 const AdminDashboard = () => {
 
@@ -23,13 +24,13 @@ const AdminDashboard = () => {
 
     return (
         <div id="wrapper">
-            <AdminSidebar />
+            <Sidebar />
             <Switch>
-                <Route exact path={`${path}/dashboard`} component={ AdminDashbaord }/>
-                <Route exact path={`${path}/published-articles`} component={ AdminPublishedArticles } />
-                <Route exact path={`${path}/to-be-verified-articles`} component={ AdminToBeVerifiedArticles } />
-                <Route exact path={`${path}/contact-messages`} component={ AdminContactMessages } />
-                <Route exact path={`${path}/reports`} component={ AdminReports } />
+                <Route exact path={`${path}/dashboard`} component={ Dashbaord }/>
+                <Route exact path={`${path}/published-articles`} component={ PublishedArticles } />
+                <Route exact path={`${path}/to-be-verified-articles`} component={ ToBeVerifiedArticles } />
+                <Route exact path={`${path}/contact-messages`} component={ ContactMessages } />
+                <Route exact path={`${path}/reports`} component={ Reports } />
             </Switch>
         </div>
     )
