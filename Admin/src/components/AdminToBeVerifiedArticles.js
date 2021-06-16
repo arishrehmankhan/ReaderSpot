@@ -3,8 +3,9 @@ import api from "../helpers/api";
 import { UserContext } from "../contexts/UserContext";
 import { useHistory } from "react-router";
 import Moment from "react-moment";
+import { toast } from "react-toastify";
 
-const AdminPublishedArticles = () => {
+const AdminToBeVerifiedArticles = () => {
   const [user, setUser] = useContext(UserContext);
 
   const [publishedArticles, setPublishedArticles] = useState([]);
@@ -16,7 +17,7 @@ const AdminPublishedArticles = () => {
   const history = useHistory();
 
   const getPublishedArticles = async () => {
-    const res = await api.get(`/admin/published-articles`, {
+    const res = await api.get(`/admin/to-be-verified-articles`, {
       headers: { "auth-token": user.admin_token },
     });
     if (res.data.status === 1) {
@@ -24,22 +25,53 @@ const AdminPublishedArticles = () => {
     }
   };
 
-  const openArticle = (artilcleId) => {
-    history.push(`/article/${artilcleId}`);
+  const openArticle = (articleId) => {
+    window.open(process.env.REACT_APP_SITE_URL + `/article/${articleId}`);
   };
+
+  const publishArticle = async (articleId) => {
+    const body = {
+      articleId: articleId,
+      newStatus: "published",
+    };
+    const res = await api.post(`/admin/change-article-status`, body, {
+      headers: { "auth-token": user.admin_token },
+    });
+    if (res.data.status === 1) {
+      toast.success(res.data.message);
+      getPublishedArticles();
+    } else {
+      toast.warning("Some error occurred");
+    }
+  };
+  
+
+  const deleteArticle = async (articleId) => {
+    const body = {
+      articleId: articleId
+    };
+    const res = await api.post(`/admin/delete-article`, body, {headers: { "auth-token": user.admin_token }});
+    if (res.data.status === 1) {
+      toast.success(res.data.message);
+      getPublishedArticles();
+    } else {
+      toast.warning("Some error occurred");
+    }
+  };
+
   return (
     <div id="content-wrapper" className="d-flex flex-column">
       <div className="content">
         <div className="container-fluid">
           <div className="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 className="h3 mb-0 text-gray-800">Published Articles</h1>
+            <h1 className="h3 mb-0 text-gray-800">To be verified</h1>
           </div>
           <table className="table">
             <thead className="thead-dark">
               <tr>
                 <th scope="col">Id</th>
                 <th scope="col">Title</th>
-                <th scope="col">Date Published</th>
+                <th scope="col">Date Submitted</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
@@ -47,7 +79,9 @@ const AdminPublishedArticles = () => {
               {publishedArticles &&
                 publishedArticles.map((article) => {
                   return (
-                    <tr key={article._id}>
+                    <tr
+                      key={article._id}
+                    >
                       <th scope="row">{article._id}</th>
                       <td>{article.title}</td>
                       <td>
@@ -64,6 +98,22 @@ const AdminPublishedArticles = () => {
                         >
                           <i className="fa fa-eye"></i>
                         </button>
+                        <button
+                          onClick={() => publishArticle(article._id)}
+                          className="btn btn-success btn-sm rounded-0"
+                          type="button"
+                          title="Publish"
+                        >
+                          <i className="fa fa-check-square"></i>
+                        </button>
+                        <button
+                          onClick={() => deleteArticle(article._id)}
+                          className="btn btn-danger btn-sm rounded-0"
+                          type="button"
+                          title="Delete"
+                        >
+                          <i className="fa fa-trash"></i>
+                        </button>
                       </td>
                     </tr>
                   );
@@ -76,4 +126,4 @@ const AdminPublishedArticles = () => {
   );
 };
 
-export default AdminPublishedArticles;
+export default AdminToBeVerifiedArticles;

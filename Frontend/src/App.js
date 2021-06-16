@@ -14,10 +14,8 @@ import Profile from "./components/Profile";
 import Settings from "./components/Settings";
 import Contact from "./components/Contact";
 import About from "./components/About";
-import AdminLogin from "./components/AdminLogin";
 import { UserProvider } from "./contexts/UserContext";
 import { ArticleProvider } from "./contexts/ArticleContext";
-import Admin from "./components/Admin";
 import SavedArticles from "./components/SavedArticles";
 import ArticleEdit from "./components/ArticleEdit";
 import UserArticles from "./components/UserArticles";
@@ -29,10 +27,6 @@ function App(props) {
       <UserProvider>
         <BrowserRouter>
           <Switch>
-              <Route exact path="/admin/login" component={AdminLogin} />
-              <Route path="/admin">
-                <Admin />
-              </Route>
             <React.Fragment>
               <div>
                 <div className="container main-container">

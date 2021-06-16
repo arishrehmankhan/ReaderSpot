@@ -42,7 +42,7 @@ const AdminReports = () => {
   };
 
   const openArticle = (articleId) => {
-    history.push(`/article/${articleId}`);
+    window.open(process.env.REACT_APP_SITE_URL + `/article/${articleId}`);
   };
 
   const deleteArticle = async (articleId) => {

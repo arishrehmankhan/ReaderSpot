@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
 import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const AdminSidebar = () => {
 
@@ -15,6 +16,7 @@ const AdminSidebar = () => {
           admin_token: ""
       });
       localStorage.removeItem("admin_token");
+      toast.success("Logged out successfully");
       history.push("/admin/login");
   }
 
@@ -26,7 +28,7 @@ const AdminSidebar = () => {
       >
         <Link
           className="sidebar-brand d-flex align-items-center justify-content-center"
-          to="/"
+          to={{ pathname: process.env.REACT_APP_SITE_URL}} target="_blank"
         >
           <div className="sidebar-brand-icon">
             <i className="fas fa-users-cog"></i>
