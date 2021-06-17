@@ -29,7 +29,7 @@ const AdminToBeVerifiedArticles = () => {
   const publishArticle = async (articleId) => {
     const body = {
       articleId: articleId,
-      newStatus: "published",
+      newStatus: "verified",
     };
     const res = await api.post(`/admin/change-article-status`, body, {
       headers: { "auth-token": user.admin_token },

@@ -10,9 +10,10 @@ const articleSchema = new Schema({
         type: Object,
         required: true
     },
+    // to_be_verified / verified / draft / hidden
     status: {
         type: String,
-        default: "unpublished"
+        default: "to_be_verified"
     },
     headerImage: {
         type: String,

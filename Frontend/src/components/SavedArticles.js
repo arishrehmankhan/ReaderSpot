@@ -26,6 +26,7 @@ const SavedArticles = () => {
         const res = await api.get(`/article/saved`, { headers: { "auth-token": user.user_token }});
         if (res.data.status === 1 && res.data.data)
             setSavedArticles(res.data.data.articles);
+        console.log(res);
     };
 
     const deleteArticleFromArray = (articleId) => {

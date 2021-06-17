@@ -40,11 +40,9 @@ const login = (req, res) => {
 
 const dashboard = async (req, res) => {
   try {
-    const totalPublished = await Article.find({
-      status: "published",
-    }).countDocuments();
+    const totalPublished = await Article.find({status : {$in: ["verified", "hidden"]}}).countDocuments();
     const toBeVerified = await Article.find({
-      status: "unpublished",
+      status: "to_be_verified",
     }).countDocuments();
     const totalMessages = await ContactMessage.find({}).countDocuments();
     const totalReportedArticles = await Article.find({reports: { $exists: true, $ne: [] }}).countDocuments();
@@ -65,7 +63,7 @@ const dashboard = async (req, res) => {
 
 const publishedArticles = async (req, res) => {
   try {
-    const published_articles = await Article.find({ status: "published" }).select("id publishDate title");
+    const published_articles = await Article.find({status : {$in: ["verified", "hidden"]}}).select("id publishDate title");
 
     apiResponse.successResponseWithData(res, "Success", published_articles);
   } catch (err) {
@@ -77,7 +75,7 @@ const publishedArticles = async (req, res) => {
 const toBeVerifiedArticles = async (req, res) => {
   try {
     const to_be_verified_articles = await Article.find({
-      status: "unpublished",
+      status: "to_be_verified",
     });
 
     apiResponse.successResponseWithData(

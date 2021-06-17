@@ -80,7 +80,7 @@ const edit = async (req, res) => {
                 await article.save();
                 apiResponse.successResponseWithData(res, "Article saved.", { article_id: article._id });
             } else {
-                article.status = "unpublished";
+                article.status = "to_be_verified";
                 await article.save();
                 apiResponse.successResponseWithData(res, "Article submitted for verification.", { article_id: article._id });
             }
@@ -246,10 +246,10 @@ const report = async (req, res) => {
 const getRecent = async (req, res) => {
 
     try {
-        const articles = await Article.find({ status: "published" })
+        const articles = await Article.find({ status: "verified" })
             .select('_id title tags readTime headerImage publishDate')
             .sort({ publishDate: -1 })
-            // .limit(15)
+            .limit(15)
             .populate('author', '_id name pic')
         if (articles.length == 0) {
             apiResponse.successResponse(res, "Articles not found");
@@ -291,7 +291,7 @@ const ofUser = async (req, res) => {
 
     try {
         const articles = await Article
-            .find({ author: userId, status: { $in: ["unpublished", "published"] } })
+            .find({ author: userId, status: { $in: ["to_be_verified", "verified"] } })
             .select('_id title tags readTime headerImage status publishDate')
             .sort({ submissionDate: -1 })
             .populate('author', '_id name pic');
@@ -380,7 +380,7 @@ const bookmarked = async (req, res) => {
 
 const trending = async (req, res) => {
     try {
-        const articles = await Article.find({ status: "published" })
+        const articles = await Article.find({ status: "verified" })
             .select('_id title tags readTime headerImage publishDate')
             .sort({ viewCounter: -1 })
             .limit(6)

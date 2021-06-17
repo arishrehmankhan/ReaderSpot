@@ -149,7 +149,7 @@ const publishedArticles = async (req, res) => {
     const userId = req.params.userId;
     try {
         const articles = await Article
-        .find({author: userId, status: "published"})
+        .find({author: userId, status: "verified"})
         .select('_id title tags headerImage publishDate')
         .sort({ submissionDate: -1 })
         .populate('author', '_id name pic');
