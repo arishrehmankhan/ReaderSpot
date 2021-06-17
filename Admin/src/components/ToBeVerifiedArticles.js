@@ -1,20 +1,17 @@
 import React, { useEffect, useContext, useState } from "react";
 import api from "../helpers/api";
 import { UserContext } from "../contexts/UserContext";
-import { useHistory } from "react-router";
 import Moment from "react-moment";
 import { toast } from "react-toastify";
 
 const AdminToBeVerifiedArticles = () => {
-  const [user, setUser] = useContext(UserContext);
+  const [user, ] = useContext(UserContext);
 
   const [publishedArticles, setPublishedArticles] = useState([]);
 
   useEffect(() => {
     getPublishedArticles();
   }, []);
-
-  const history = useHistory();
 
   const getPublishedArticles = async () => {
     const res = await api.get(`/admin/to-be-verified-articles`, {

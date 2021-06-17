@@ -5,7 +5,7 @@ import { useHistory } from "react-router";
 import ReactLoading from "react-loading";
 
 const AdminDashboard = () => {
-  const [user, setUser] = useContext(UserContext);
+  const [user, ] = useContext(UserContext);
   const [totalPublished, setTotalPublished] = useState(0);
   const [toBeVerified, setToBeVerified] = useState(0);
   const [totalMessages, setTotalMessages] = useState(0);

@@ -2,18 +2,15 @@ import React, { useEffect, useContext, useState } from "react";
 import api from "../helpers/api";
 import { UserContext } from "../contexts/UserContext";
 import Moment from "react-moment";
-import { useHistory } from "react-router";
 import { toast } from "react-toastify";
 import Modal from "react-modal";
 
 const AdminReports = () => {
-  const [user, setUser] = useContext(UserContext);
+  const [user, ] = useContext(UserContext);
   const [reportedArticles, setReportedArticles] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [reports, setReports] = useState([]);
   const [articleToBeDeleted, setArticleToBeDeleted] = useState();
-
-  const history = useHistory();
 
   // modal config
   const customStyles = {
@@ -35,7 +32,6 @@ const AdminReports = () => {
     const res = await api.get(`/admin/reports`, {
       headers: { "auth-token": user.admin_token },
     });
-    console.log(res.data.data);
     if (res.data.status === 1) {
       setReportedArticles(res.data.data);
     }

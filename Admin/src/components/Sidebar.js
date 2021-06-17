@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 const AdminSidebar = () => {
 
-  const [ user, setUser ] = useContext(UserContext);
+  const [ , setUser ] = useContext(UserContext);
 
   const history = useHistory();
 

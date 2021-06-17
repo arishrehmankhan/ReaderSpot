@@ -5,7 +5,7 @@ import Moment from "react-moment";
 
 const AdminContactMessages = () => {
 
-  const [user, setUser] = useContext(UserContext);
+  const [user, ] = useContext(UserContext);
 
   const [contactMessages, setContactMessages] = useState([]);
 
