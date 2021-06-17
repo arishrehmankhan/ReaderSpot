@@ -1,3 +1,17 @@
-.card, tbody > tr {
-    cursor: pointer;
+.card,
+tbody > tr {
+  cursor: pointer;
+}
+
+.hide-show-btn {
+  margin-right: 5px;
+}
+
+.close-btn {
+  float: right;
+  cursor: pointer;
+}
+
+.modal-text {
+    margin: 25px 60px 30px 10px;
 }
