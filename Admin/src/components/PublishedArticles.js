@@ -28,7 +28,7 @@ const AdminPublishedArticles = () => {
   const data = {
     columns: [
       {
-        label: "Publish Date",
+        label: "Publish DateTime",
         field: "publishDate",
         sort: "desc",
         width: 150,
