@@ -63,7 +63,7 @@ const dashboard = async (req, res) => {
 
 const publishedArticles = async (req, res) => {
   try {
-    const published_articles = await Article.find({status : {$in: ["verified", "hidden"]}}).select("id publishDate title");
+    const published_articles = await Article.find({status : {$in: ["verified", "hidden"]}}).select("id publishDate title status");
 
     apiResponse.successResponseWithData(res, "Success", published_articles);
   } catch (err) {

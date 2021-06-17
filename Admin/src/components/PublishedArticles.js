@@ -3,6 +3,7 @@ import api from "../helpers/api";
 import { UserContext } from "../contexts/UserContext";
 import Moment from "react-moment";
 import { MDBDataTable } from "mdbreact";
+import { toast } from "react-toastify";
 
 const AdminPublishedArticles = () => {
   const [user] = useContext(UserContext);
@@ -44,6 +45,16 @@ const AdminPublishedArticles = () => {
 
       // modify data to display in table
       var articles = res.data.data.map((article) => {
+        var newStatus;
+        var newStatusText;
+        if (article.status === "verified") {
+          newStatus = "hidden";
+          newStatusText = "Hide";
+        }
+        else {
+          newStatus = "verified";
+          newStatusText = "Show";
+        }
         return {
           _id: article._id,
           title: article.title,
@@ -51,12 +62,12 @@ const AdminPublishedArticles = () => {
           clickEvent: () => openArticle(article._id),
           actions: (
             <button
-              onClick={() => openArticle(article._id)}
+              onClick={(e) => changeStatus(e, article._id, newStatus)}
               className="btn btn-primary btn-sm rounded-0"
               type="button"
               title="Open"
             >
-              View
+              { newStatusText }
             </button>
           ),
         };
@@ -70,6 +81,23 @@ const AdminPublishedArticles = () => {
   const openArticle = (articleId) => {
     window.open(process.env.REACT_APP_SITE_URL + `/article/${articleId}`);
   };
+
+  const changeStatus = async (e, articleId, newStatus) => {
+    e.stopPropagation();
+    const body = {
+      articleId: articleId,
+      newStatus: newStatus,
+    };
+    const res = await api.post(`/admin/change-article-status`, body, {
+      headers: { "auth-token": user.admin_token },
+    });
+    if (res.data.status === 1) {
+      toast.success(res.data.message);
+      getPublishedArticles();
+    } else {
+      toast.warning("Some error occurred");
+    }
+  }
 
   return (
     <div id="content-wrapper" className="d-flex flex-column">
