@@ -25,7 +25,7 @@ const AdminPublishedArticles = () => {
   };
 
   // for table
-  const data = {
+  var data = {
     columns: [
       {
         label: "Publish DateTime",
