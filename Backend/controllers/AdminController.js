@@ -40,18 +40,22 @@ const login = (req, res) => {
 
 const dashboard = async (req, res) => {
   try {
-    const totalPublished = await Article.find({status : {$in: ["verified", "hidden"]}}).countDocuments();
+    const totalPublished = await Article.find({
+      status: { $in: ["verified", "hidden"] },
+    }).countDocuments();
     const toBeVerified = await Article.find({
       status: "to_be_verified",
     }).countDocuments();
     const totalMessages = await ContactMessage.find({}).countDocuments();
-    const totalReportedArticles = await Article.find({reports: { $exists: true, $ne: [] }}).countDocuments();
+    const totalReportedArticles = await Article.find({
+      reports: { $exists: true, $ne: [] },
+    }).countDocuments();
 
     const response = {
       totalPublished,
       toBeVerified,
       totalMessages,
-      totalReportedArticles
+      totalReportedArticles,
     };
 
     apiResponse.successResponseWithData(res, "Success", response);
@@ -63,7 +67,9 @@ const dashboard = async (req, res) => {
 
 const publishedArticles = async (req, res) => {
   try {
-    const published_articles = await Article.find({status : {$in: ["verified", "hidden"]}}).select("id publishDate title status");
+    const published_articles = await Article.find({
+      status: { $in: ["verified", "hidden"] },
+    }).select("id publishDate title status");
 
     apiResponse.successResponseWithData(res, "Success", published_articles);
   } catch (err) {
@@ -76,7 +82,7 @@ const toBeVerifiedArticles = async (req, res) => {
   try {
     const to_be_verified_articles = await Article.find({
       status: "to_be_verified",
-    });
+    }).select("_id title submissionDate");
 
     apiResponse.successResponseWithData(
       res,
@@ -125,7 +131,9 @@ const deleteArticle = async (req, res) => {
 
 const contactMessages = async (req, res) => {
   try {
-    const messages = await ContactMessage.find({});
+    const messages = await ContactMessage.find({}).select(
+      "name email message createdAt"
+    );
 
     apiResponse.successResponseWithData(res, "Success", messages);
   } catch (err) {
@@ -137,12 +145,27 @@ const contactMessages = async (req, res) => {
 const reports = async (req, res) => {
   try {
     const reports = await Article.find({
-      reports: { $exists: true, $ne: [] }
+      reports: { $exists: true, $ne: [] },
     }).select("id title reports");
     if (reports) {
       apiResponse.successResponseWithData(res, "Reports Found", reports);
     } else {
       apiResponse.successResponse(res, "Reports not found");
+    }
+  } catch (err) {
+    console.log(err);
+    apiResponse.errorResponse(res, err);
+  }
+};
+
+const deleteContactMessage = async (req, res) => {
+  const messageId = req.body.messageId;
+  try {
+    const deleted = await ContactMessage.deleteOne({ _id: messageId });
+    if (deleted.n == 1) {
+      apiResponse.successResponse(res, "Message deleted");
+    } else {
+      apiResponse.errorResponse(res, "Some error occurred");
     }
   } catch (err) {
     console.log(err);
@@ -158,3 +181,4 @@ module.exports.changeArticleStatus = changeArticleStatus;
 module.exports.deleteArticle = deleteArticle;
 module.exports.contactMessages = contactMessages;
 module.exports.reports = reports;
+module.exports.deleteContactMessage = deleteContactMessage;
